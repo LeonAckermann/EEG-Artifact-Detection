@@ -50,7 +50,7 @@ class Data:
         
         # rearrange data so that the channels are in the last dimension (following convention)
         print(np.array(input).shape)
-        data = einops.rearrange(np.array(input), 'b c t -> b t c')
+        data = einops.rearrange(np.asarray(input), 'b c t -> b t c')
         
         features = data[:,:,:-2] # only take inputs from first 17 channels and all timesteps
         labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
