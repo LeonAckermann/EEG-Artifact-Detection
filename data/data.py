@@ -34,19 +34,7 @@ class Data:
         return train_ds, val_ds, test_ds
     
     def prepare_data(self, input, balance=False, dataset=False, batch_size=64):
-         """
-        split the data into features and lables, reshape the data, balance the data and put it into tf.Dataset
-
-        Args:
-            input: np.array
-            balance: bool --> if ture function returns balanced data
-            dataset: bool --> if true function returns dataset, if false np.array is returned
-            batch_size: int --> determines batch_size if dataset is returned
         
-        Returns: 
-            if dataset==true --> tensorflow dataset is returned with shape (features, labels)
-            if dataset==fale --> features and labels are returned seperately as np.array
-        """
         
         # rearrange data so that the channels are in the last dimension (following convention)
         data = einops.rearrange(input, 'b c t -> b t c')
