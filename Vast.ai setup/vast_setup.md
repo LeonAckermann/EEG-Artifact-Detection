@@ -24,3 +24,9 @@ scp -r -P 10200 root@107.222.215.224:./logs ./Desktop
 - 10200 is the port and specified by vast
 - root is the username of the vm
 - 107.222.215.224 is the IP-adress of our vm    
+
+
+7. log on ssh server how much RAM of GPUs is being used every second
+```bash
+watch -n 1 nvidia-smi
+```
