@@ -87,14 +87,14 @@ class Data:
                     plt.subplot(len(names), 1, i+1)
                     plt.plot(data[i, :])
                     if annotate:
-                        plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center')
+                        plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center',fontsize=6)
             elif data.shape[-1] == len(names):
                 fig = plt.figure(figsize=(20,10), dpi=200)
                 for i in range(len(names)):
                     plt.subplot(len(names), 1, i+1)
                     plt.plot(data[:, i])
                     if annotate:
-                        plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center')
+                        plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center', fontsize=6)
 
         else:
             fig = plt.figure(figsize=(20,10), dpi=200)
@@ -102,7 +102,7 @@ class Data:
                 plt.subplot(len(data), 1, i+1)
                 plt.plot(data[i, :])
                 if annotate:
-                    plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center')
+                    plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center', fontsize=6)
 
 
         if save_name:
