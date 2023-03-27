@@ -31,7 +31,7 @@ class Data:
         train_ds = data[:train_split_idx, :, :] # split train
         val_ds = data[train_split_idx:val_split_idx, :, :] # split val
         test_ds = data[val_split_idx:, :, :] # split test
-        return [train_ds, val_ds, test_ds]
+        return train_ds, val_ds, test_ds
     
     def prepare_data(input, balance=False, dataset=False, batch_size=64):
         """
@@ -48,8 +48,10 @@ class Data:
             if dataset==fale --> features and labels are returned seperately as np.array
         """
         
-        data = einops.rearrange(input, 'b c t -> b t c') # rearrange data so that the channels are in the last dimension (following convention)
-
+        # rearrange data so that the channels are in the last dimension (following convention)
+        print(np.array(input).shape)
+        data = einops.rearrange(np.array(input), 'b c t -> b t c')
+        
         features = data[:,:,:-2] # only take inputs from first 17 channels and all timesteps
         labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
 
