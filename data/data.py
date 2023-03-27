@@ -67,7 +67,7 @@ class Data:
         return features, labels
     
     
-    def plot(self, data, save_name=None, show=False, annotate=False, artifact=None):
+    def plot(self, data, save_name=None, show=True, annotate=False, artifact=None):
         data = np.squeeze(data)
 
         if annotate:
