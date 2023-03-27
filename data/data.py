@@ -109,3 +109,14 @@ class Data:
             plt.savefig(save_name)
         if show:
             plt.show()
+
+
+    def get_balance(self, labels):
+        """
+        calculate the balance between timesteps with artifacts and without
+        """
+        ones = np.argwhere(labels==1).size
+        zeros = np.argwhere(labels==0).size
+        total = ones + zeros
+        print('Balance:\n    Count of Timesteps with no artifacts at all: {}\n    Count Timesteps with artifacts: {} ({:.2f}% of total)\n'.format(
+            zeros, ones, 100 * (ones) / total))
