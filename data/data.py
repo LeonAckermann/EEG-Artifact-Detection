@@ -37,22 +37,22 @@ class Data:
 
         print(input.shape)
         # rearrange data so that the channels are in the last dimension (following convention)
-        data = einops.rearrange(input, 'b c t -> b t c')
-        features = data[:,:,:-2] # only take inputs from first 17 channels and all timesteps
-        labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
-
-        if balance:
-            idx_ones = set(np.where(labels.any(axis=1))[0])
-            features = features[np.array(list(idx_ones))]
-            labels = labels[np.array(list(idx_ones))]
-    
-        if dataset:
-            dataset = tf.data.Dataset.from_tensor_slices((features, labels)) # create dataset
-            dataset = dataset.map(lambda x,y: (x, tf.cast(y, tf.int32)))
-            dataset = dataset.cache().shuffle(1000).batch(batch_size).prefetch(20) # as usual
-            return dataset
-
-        return features, labels
+        #data = einops.rearrange(input, 'b c t -> b t c')
+        #features = data[:,:,:-2] # only take inputs from first 17 channels and all timesteps
+        #labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
+#
+        #if balance:
+        #    idx_ones = set(np.where(labels.any(axis=1))[0])
+        #    features = features[np.array(list(idx_ones))]
+        #    labels = labels[np.array(list(idx_ones))]
+    #
+        #if dataset:
+        #    dataset = tf.data.Dataset.from_tensor_slices((features, labels)) # create dataset
+        #    dataset = dataset.map(lambda x,y: (x, tf.cast(y, tf.int32)))
+        #    dataset = dataset.cache().shuffle(1000).batch(batch_size).prefetch(20) # as usual
+        #    return dataset
+#
+        #return features, labels
     
     
     def plot(self, data):
