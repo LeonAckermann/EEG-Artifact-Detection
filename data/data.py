@@ -82,14 +82,14 @@ class Data:
                     names = ['F3', 'F4', 'C3', 'C4', 'P3', 'P4', 'FZ', 'CZ', 'PZ', artifact]
 
             if data.shape[0] == len(names):
-                fig = plt.figure(figsize=(12,6), dpi=200)
+                fig = plt.figure(figsize=(20,10), dpi=200)
                 for i in range(len(names)):
                     plt.subplot(len(names), 1, i+1)
                     plt.plot(data[i, :])
                     if annotate:
                         plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center')
             elif data.shape[-1] == len(names):
-                fig = plt.figure(figsize=(12,6), dpi=200)
+                fig = plt.figure(figsize=(20,10), dpi=200)
                 for i in range(len(names)):
                     plt.subplot(len(names), 1, i+1)
                     plt.plot(data[:, i])
@@ -97,7 +97,7 @@ class Data:
                         plt.annotate(names[i], xy=(1.05, 0.5), xycoords='axes fraction', horizontalalignment='right', verticalalignment='center')
 
         else:
-            fig = plt.figure(figsize=(12,6), dpi=200)
+            fig = plt.figure(figsize=(20,10), dpi=200)
             for i in range(len(data)):
                 plt.subplot(len(data), 1, i+1)
                 plt.plot(data[i, :])
