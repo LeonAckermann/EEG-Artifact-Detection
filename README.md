@@ -24,4 +24,4 @@ In the hyperparams_optimization folder you can find the different notebooks we m
     - recurrence based models
     - attention based models
 
-Lastly, in the folder bash script, we provide how we worked with remote GPU servers to log and save our results
+Lastly, in the folder bash script, we provide how we worked with remote GPU servers to log and save our results [architectures]
