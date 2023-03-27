@@ -18,6 +18,3 @@ import pickle
 import zipfile
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 import tensorboard as tb
-
-
-from data.data import Data
