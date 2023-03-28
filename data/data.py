@@ -33,7 +33,7 @@ class Data:
         test_ds = data[val_split_idx:, :, :] # split test
         return train_ds, val_ds, test_ds
     
-    def prepare_data(self, input, balance=False, dataset=False, batch_size=64):
+    def prepare_data(self, input, balance=False, balance2=True, dataset=False, batch_size=64):
         """
         split the data into features and lables, reshape the data, balance the data and put it into tf.Dataset
 
@@ -56,6 +56,12 @@ class Data:
         if balance:
             idx_ones = set(np.where(labels.any(axis=1))[0])
             features = features[np.array(list(idx_ones))]
+            labels = labels[np.array(list(idx_ones))]
+
+        if balance2:
+            indices_1 = np.where(np.any(labels[:,:,0] == 1, axis=1))[0]
+            indices_2  = np.where(np.any(labels[:,:,1] == 1, axis=1))[0]
+            indices_comb = np.union1d(indices_1, indices_2)
             labels = labels[np.array(list(idx_ones))]
     
         if dataset:
