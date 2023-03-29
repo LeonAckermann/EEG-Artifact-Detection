@@ -11,11 +11,11 @@ import sys
 sys.path.append('./')
 from mylibs import *
 
-class TestModel(tf.keras.Model):
+class CCNAttentionNetwork(tf.keras.Model):
 
   def __init__(self, num_units, num_layers, num_heads, num_conv_layers):
 
-    super(TestModel, self).__init__()
+    super(CCNAttentionNetwork, self).__init__()
     
     
     self.conv_block = []
