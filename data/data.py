@@ -58,7 +58,7 @@ class Data:
             features = features[np.array(list(idx_ones))]
             labels = labels[np.array(list(idx_ones))]
 
-        if balance2:
+        if balance:
             indices_1 = np.where(np.any(labels[:,:,0] == 1, axis=1))[0]
             indices_2  = np.where(np.any(labels[:,:,1] == 1, axis=1))[0]
             indices_comb = np.union1d(indices_1, indices_2)

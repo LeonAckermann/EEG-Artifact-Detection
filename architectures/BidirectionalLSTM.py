@@ -10,7 +10,7 @@ class BidirectionalLSTM(keras.Model):
                  num_dense_units=0,
                  num_dense_layers=0,
                  activation_function='tanh',
-                 increase=False):
+                 increase=0):
         
         
         super(BidirectionalLSTM, self).__init__()
