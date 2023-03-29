@@ -9,12 +9,20 @@ class BidirectionalLSTM(keras.Model):
                  num_bidirectional_layers, 
                  num_dense_units=0,
                  num_dense_layers=0,
+                 num_conv_layers=0,
                  activation_function='tanh',
                  increase=0):
         
         
         super(BidirectionalLSTM, self).__init__()
 
+        self.conv_layers_list = []
+        self.num_conv_layers = num_conv_layers
+        if num_conv_layers > 0:
+            for i in range(num_conv_layers):
+                self.conv_layers_list.append(layers.TimeDistributed(layers.Conv1D(filters=8*i+8, kernel_size=3, activation='relu')))
+            self.conv_layers_list.append(layers.TimeDistributed(layers.MaxPool1D()))
+            self.conv_layers_list.append(layers.TimeDistributed(layers.Flatten()))
 
         self.lstm_layers_list = []
         for i in range(num_bidirectional_layers):
@@ -31,6 +39,12 @@ class BidirectionalLSTM(keras.Model):
 
     def call(self, inputs, training=False):
         x = inputs
+
+        if self.num_conv_layers > 0:
+            for layer in self.conv_layers_list:
+                print(x)
+                x = layer(x)
+
         for layer in self.lstm_layers_list:
             x = layer(x)
 
