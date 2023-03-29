@@ -18,9 +18,9 @@ class BidirectionalLSTM(keras.Model):
 
         self.lstm_layers_list = []
         for i in range(num_bidirectional_layers):
-            self.lstm_layers_list.append(keras.layers.LSTM(num_hidden_units, 
-                                                         return_sequences=True,
-                                                         activation=activation_function))
+            self.lstm_layers_list.append(keras.layers.Bidirectional(keras.layers.LSTM(num_hidden_units, 
+                                                                                      return_sequences=True,
+                                                                                      activation=activation_function)))
         self.dense_layers_list = []  
         self.num_dense_layers = num_dense_layers
         if num_dense_layers > 0:
