@@ -2,7 +2,31 @@
 
 This is the repository of the project EEG Artifact Detection for the course Implementing Aritificial Neural Networks with Tensorflow.
 
-## Structure of repository 
+## Setup
+
+Clone the repository with 
+```bash
+git clone https://github.com/LeonAckermann/EEG-Artifact-Detection.git
+```
+
+**Create new conda environment** <br>
+```bash
+conda create --name myenv
+```
+
+**Activate environment**
+```bash
+conda activate myenv
+```
+
+**Install necessary packages** <br>
+Navigate to the clones repository on your local machine. Execute the following command to install all necessary packages.
+```bash
+pip install -r requirements.txt
+```
+
+
+## Structure of repository
 
 In the folder "data" you can find
 - data_download.sh --> to download the needed data from our google drive
