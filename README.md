@@ -1,8 +1,8 @@
 # EEG-Artifact-Detection
 
-This is the repository of the project EEG Artifact Detection for the course Implementing Aritificial Neural Networks with Tensorflow.
+This is the repository of the project EEG Artifact Detection for the course Implementing Aritificial Neural Networks with Tensorflow. Below you can find the precise steps for replicating our results either on your local machine or a vast.ai gpu.
 
-## Setup
+## Setup for local machine
 
 1. Clone the repository with `git clone https://github.com/LeonAckermann/EEG-Artifact-Detection.git`
 
@@ -13,6 +13,28 @@ This is the repository of the project EEG Artifact Detection for the course Impl
 4. Install all necesary packages by navigating to the directory of the cloned repository. Then execute `pip install -r setup/requirements.txt`
 
 5. Download the necessary data with `bash setup/data_download.sh`
+
+6. Run either of the hyperparam optimization scripts for [transformer](hyperparams_optimization/transformer_architecture_tuning.ipynb) or [lstms](hyperparams_optimization/lstm_architecture_tuning.ipynb)
+
+7. Keep in mind that without an external GPU, your kernel might crash
+
+## Setup on Vast.ai gpu
+1. Generate ssh keypair for connection with server by executing `ssh-keygen -t rsa -b 4096``
+
+2. Display the generated public key `cat ~/.ssh/id_rsa.pub`
+
+3. Copy the contents
+
+4. Past Content in Vast.ai public key field
+
+5. Rent GPU and connect over jupyter notebook
+
+6. Repeat all steps of setup for local machine
+
+7. Run either of the optimization notebooks
+
+8. when finished with the model training, we can copy our logs and models to our local machine with the following command `scp -r -P <port> root@<ip-adress>:./logs ./Desktop`
+
 
 ## Structure of repository
 
