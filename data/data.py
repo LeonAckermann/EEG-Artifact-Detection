@@ -51,7 +51,7 @@ class Data:
             if dataset==false --> features and labels are returned seperately as np.array for indicated architecture type
         """        
 
-        if transformer and lstm == False:
+        if transformer and lstm== False:
             print('Please indicate for which architecture type you want to prepare the data with the arguements transformer=1 or lstm=1')
             return
         
@@ -77,6 +77,7 @@ class Data:
 
 
         if transformer:
+            print('transformer')
             y_data_1 = dataset[:,:,-1] 
             y_data_2 = dataset[:,:,-2]  
 
