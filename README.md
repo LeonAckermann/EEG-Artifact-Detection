@@ -4,31 +4,18 @@ This is the repository of the project EEG Artifact Detection for the course Impl
 
 ## Setup
 
-Clone the repository with 
-```bash
-git clone https://github.com/LeonAckermann/EEG-Artifact-Detection.git
-```
+1. Clone the repository with `git clone https://github.com/LeonAckermann/EEG-Artifact-Detection.git`
 
-**Create new conda environment** <br>
-```bash
-conda create --name myenv
-```
+2. Create new conda environment `conda create --name myenv`
 
-**Activate environment**
-```bash
-conda activate myenv
-```
+3. Activate environment `conda activate myenv`
 
-**Install necessary packages** <br>
-Navigate to the clones repository on your local machine. Execute the following command to install all necessary packages.
-```bash
-pip install -r requirements.txt
-```
-
+4. Install all necesary packages by navigating to the directory of the cloned repository. Then execute `pip install -r requirements.txt`
 
 ## Structure of repository
 
-In the folder "data" you can find
+### Architecture
+In the folder [Architectures](architectures) you will find the implementations of our models. We implemented a [Convlutional Transformer based network](architectures/CCNAttentionNetwork.py), a [Multi Layer LSTM](architectures/MultiLayerLSTM.py) and [Bidirectional LSTM](architectures/BidirectionalLSTM.py).
 - data_download.sh --> to download the needed data from our google drive
 - data.py --> all necessary functions regarding the data
 - data_statistics.ipynb --> a notebook with plots and helpful data statistics
