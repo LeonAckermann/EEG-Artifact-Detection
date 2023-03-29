@@ -78,8 +78,8 @@ class Data:
 
         if transformer:
             print('transformer')
-            y_data_1 = dataset[:,:,-1] 
-            y_data_2 = dataset[:,:,-2]  
+            y_data_1 = data[:,:,-1] 
+            y_data_2 = data[:,:,-2]  
 
             if balance:
                 # if we want to reduce the dataset to only the samples that contain positive examples:
