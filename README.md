@@ -10,29 +10,22 @@ This is the repository of the project EEG Artifact Detection for the course Impl
 
 3. Activate environment `conda activate myenv`
 
-4. Install all necesary packages by navigating to the directory of the cloned repository. Then execute `pip install -r requirements.txt`
+4. Install all necesary packages by navigating to the directory of the cloned repository. Then execute `pip install -r setup/requirements.txt`
+
+5. Download the necessary data with `bash setup/data_download.sh`
 
 ## Structure of repository
 
+### Data
+Firstly, in the [data folder](data) you will find a [python module](data/data.py) with all necessary functions for the preprocessing of the data. In the [notebook](data/data_statistics_visualisations.ipynb) you can inspect data samples and statistics about the data.
+
 ### Architecture
 In the folder [Architectures](architectures) you will find the implementations of our models. We implemented a [Convlutional Transformer based network](architectures/CCNAttentionNetwork.py), a [Multi Layer LSTM](architectures/MultiLayerLSTM.py) and [Bidirectional LSTM](architectures/BidirectionalLSTM.py).
-- data_download.sh --> to download the needed data from our google drive
-- data.py --> all necessary functions regarding the data
-- data_statistics.ipynb --> a notebook with plots and helpful data statistics
 
-In the folder "architectures" you can find all model architectures that we tried out and optimized which are the following:
-- Attention Model
-- MultiLayer LSTM
-- Bidirectional LSTM
-- Residual LSTM
-- Convolutional Model
+### Hyperparameter Optimization
+In the folder [hparams_optimization](hyerparams_optimization) you find two jupyternotebooks for the optimization of the [transformer architecture](hyperparams_optimization/transformer_architecture_tuning.ipynb) and [lstm architectures](hyperparams_optimization/lstm_architecture_tuning.ipynb).
 
-In the "hyperparams_optimization" folder you can find the different notebooks we made use of to optimize the hyperparameters of our models. The folder is subcategorised into hyperparameter otpimization of architecture and learning/regularization. This is the structure:
-- Architectual Optimization
-    - recurrence based models
-    - attention based models
-- Learning optimization
-    - recurrence based models
-    - attention based models
 
-Lastly, in the folder "bash script", we provide how we worked with remote GPU servers to log and save our results
+### bash scripts
+
+Lastly, in the folder [bash scripts](bash_scripts), you can find useful bash scripts to [setup a ssh connection](bash_scripts/vast_setup.md) to a cloud gpu, [copy logs](bash_scripts/copy_remote_to_local.sh) from the cloud server to your local machine and [upload](bash_scripts/save_logs_to_tensorboard.sh) to tensorboard
