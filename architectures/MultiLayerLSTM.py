@@ -21,11 +21,10 @@ class MultiLayerLSTM(keras.Model):
                                                            return_sequences=True, 
                                                            activation=activation_function))
       
-        
-
+        self.dense_layers_list = []
+        self.num_dense_layers = num_dense_layers
         if num_dense_layers > 0:
-            self.dense_layers_list = []
-            self.num_dense_layers = num_dense_layers
+            
             for i in range(num_dense_layers):
                 self.dense_layers_list.append(keras.layers.Dense(num_dense_units, activation='relu'))
 
