@@ -33,7 +33,7 @@ class Data:
         test_ds = data[val_split_idx:, :, :] # split test
         return train_ds, val_ds, test_ds
     
-    def prepare_data(self, input, balance=False, balance2=True, dataset=False, batch_size=64):
+    def prepare_data(self, input, balance=False, balance2=True, dataset=False, batch_size=64, buffer_size= 20, transformer=False, lstm=False):
         """
         split the data into features and lables, reshape the data, balance the data and put it into tf.Dataset
 
@@ -42,35 +42,64 @@ class Data:
             balance: bool --> if ture function returns balanced data
             dataset: bool --> if true function returns dataset, if false np.array is returned
             batch_size: int --> determines batch_size if dataset is returned
+            buffer_size: int --> size for prefetching data set
+            transformer: bool --> to create dataset for transformer
+            lstm: bool --> to create dataset for lstm
         
         Returns: 
-            if dataset==true --> tensorflow dataset is returned with shape (features, labels)
-            if dataset==fale --> features and labels are returned seperately as np.array
+            if dataset==true --> tensorflow dataset is returned with shape (features, labels) for indicated architecture type
+            if dataset==false --> features and labels are returned seperately as np.array for indicated architecture type
         """        
 
+        if transformer and lstm == False:
+            print('Please indicate for which architecture type you want to prepare the data with the arguements transformer=1 or lstm=1')
+            return
+        
         # rearrange data so that the channels are in the last dimension (following convention)
         data = einops.rearrange(input, 'b c t -> b t c')
         features = data[:,:,:-2] # only take inputs from first 17 channels and all timesteps
-        labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
 
-        if balance:
-            idx_ones = set(np.where(labels.any(axis=1))[0])
-            features = features[np.array(list(idx_ones))]
-            labels = labels[np.array(list(idx_ones))]
+        if lstm:
+            labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
 
-        if balance:
-            indices_1 = np.where(np.any(labels[:,:,0] == 1, axis=1))[0]
-            indices_2  = np.where(np.any(labels[:,:,1] == 1, axis=1))[0]
-            indices_comb = np.union1d(indices_1, indices_2)
-            labels = labels[np.array(list(indices_comb))]
-    
-        if dataset:
-            dataset = tf.data.Dataset.from_tensor_slices((features, labels)) # create dataset
-            dataset = dataset.map(lambda x,y: (x, tf.cast(y, tf.int32)))
-            dataset = dataset.cache().shuffle(1000).batch(batch_size).prefetch(20) # as usual
-            return dataset
+            if balance:
+                idx_ones = set(np.where(labels.any(axis=1))[0])
+                features = features[np.array(list(idx_ones))]
+                labels = labels[np.array(list(idx_ones))]
 
-        return features, labels
+            if dataset:
+                dataset = tf.data.Dataset.from_tensor_slices((features, labels)) # create dataset
+                dataset = dataset.map(lambda x,y: (x, tf.cast(y, tf.int32)))
+                dataset = dataset.cache().shuffle(1000).batch(batch_size).prefetch(buffer_size) # as usual
+                return dataset
+            
+            return features, labels
+
+
+        if transformer:
+            y_data_1 = dataset[:,:,-1] 
+            y_data_2 = dataset[:,:,-2]  
+
+            if balance:
+                # if we want to reduce the dataset to only the samples that contain positive examples:
+                indices_1 = np.where(np.any(y_data_1 == 1, axis=1))[0]
+                indices_2  = np.where(np.any(y_data_2 == 1, axis=1))[0]
+                indices_comb = np.union1d(indices_1, indices_2)
+
+                # Extract the data and labels corresponding to these indices
+                reduced_data = features[indices_comb]
+                y_data_1 = y_data_1[indices_comb]
+                y_data_2 = y_data_2[indices_comb] 
+
+            if dataset:
+                # create a tensorflow dataset 
+                ds = tf.data.Dataset.from_tensor_slices((reduced_data, y_data_1, y_data_2))
+
+                ds = ds.map(lambda x,y1, y2: (x, tf.cast(y1, tf.int32), tf.cast(y2, tf.int32)))
+                ds = ds.shuffle(1000).batch(batch_size).cache().prefetch(buffer_size = buffer_size)
+                return ds
+            
+            return features, y_data_1, y_data_2
     
     
     def plot(self, data, save_name=None, show=True, annotate=False, artifact=None):
