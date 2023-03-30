@@ -2,7 +2,7 @@
 
 This is the repository of the project EEG Artifact Detection for the course Implementing Aritificial Neural Networks with Tensorflow. Below you can find the precise steps for replicating our results either on your local machine or a vast.ai gpu.
 
-## Setup for local machine
+## Setup for Local Machine
 
 1. Clone the repository with `git clone https://github.com/LeonAckermann/EEG-Artifact-Detection.git`
 
@@ -44,7 +44,7 @@ the setup of a virtual machine over the popular cloud computing provider vast.ai
 10. when finished with the model training, we can copy our logs and models to our local machine with the following command `scp -r -P <port> root@<ip-adress>:./logs ./Desktop`
 
 
-## Structure of repository
+## Structure of Repository
 
 ### Data
 Firstly, in the [data folder](data) you will find a [python module](data/data.py) with all necessary functions for downloading the data from our drive and to perform the necessary preprocessing steps. In the [notebook](data/data_statistics_visualisations.ipynb) you can inspect data samples and statistics about the data.
@@ -56,6 +56,6 @@ In the folder [Architectures](architectures) you will find the implementations o
 In the folder [hparams_optimization](hyerparams_optimization) you find two jupyternotebooks for the optimization of the [transformer architecture](hyperparams_optimization/transformer_architecture_tuning.ipynb) and [lstm architectures](hyperparams_optimization/lstm_architecture_tuning.ipynb).
 
 
-### bash scripts
+### Bash Scripts
 
 Lastly, in the folder [bash scripts](bash_scripts), you can find useful bash scripts to [setup a ssh connection](bash_scripts/vast_setup.md) to a cloud gpu, [copy logs](bash_scripts/copy_remote_to_local.sh) from the cloud server to your local machine and [upload](bash_scripts/save_logs_to_tensorboard.sh) your training logs to tensorboard.
