@@ -159,3 +159,15 @@ class Data:
         total = ones + zeros
         print('Balance:\n    Count of Timesteps with no artifacts at all: {}\n    Count Timesteps with artifacts: {} ({:.2f}% of total)\n'.format(
             zeros, ones, 100 * (ones) / total))
+        
+    def get_artifact_duration(self, data):
+        """
+        calculates the duration of muscel artifact and eye movement artifact in hours
+        """
+
+        muscel_timesteps = np.argwhere(data[:,-2,:]==1).size 
+        eyem_timesteps = np.argwhere(data[:,-1, :]==1).size 
+        muscel_hours = muscel_timesteps / (128*60*60) 
+        eyem_hours = eyem_timesteps / (128*60*60)
+        print('Number of events muscel artifacts: {}\nNumber of events eye movement artifacts: {}'.format(muscel_timesteps,eyem_timesteps))
+        print('Hours of muscel artifacts: {}\nHours of eye movement artifacts: {}'.format(muscel_hours, eyem_hours))

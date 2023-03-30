@@ -29,11 +29,15 @@ This is the repository of the project EEG Artifact Detection for the course Impl
 
 5. Rent GPU and connect over jupyter notebook
 
-6. Repeat all steps of setup for local machine
+6. Clone the repository with `git clone https://github.com/LeonAckermann/EEG-Artifact-Detection.git`
 
-7. Run either of the optimization notebooks
+7. Install all packages by running `bash setup/requirements.sh`
 
-8. when finished with the model training, we can copy our logs and models to our local machine with the following command `scp -r -P <port> root@<ip-adress>:./logs ./Desktop`
+8. Download the necessary data with `bash setup/data_download.sh`
+
+9. Run either of the optimization notebooks
+
+10. when finished with the model training, we can copy our logs and models to our local machine with the following command `scp -r -P <port> root@<ip-adress>:./logs ./Desktop`
 
 
 ## Structure of repository
