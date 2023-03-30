@@ -21,7 +21,7 @@ This is the repository of the project EEG Artifact Detection for the course Impl
 ## Setup on Vast.ai 
 
 In case you'd like to train our models for the purpose of reproducing our findings, you'll most likely need a GPU. The following instructions will guide you through
-the setup of a virtual machine over the cloud computing provider "vast.ai". 
+the setup of a virtual machine over the popular cloud computing provider vast.ai. 
 
 1. Generate ssh keypair for connection with server by executing `ssh-keygen -t rsa -b 4096``
 
