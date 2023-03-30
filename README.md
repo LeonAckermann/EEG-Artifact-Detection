@@ -58,4 +58,4 @@ In the folder [hparams_optimization](hyerparams_optimization) you find two jupyt
 
 ### bash scripts
 
-Lastly, in the folder [bash scripts](bash_scripts), you can find useful bash scripts to [setup a ssh connection](bash_scripts/vast_setup.md) to a cloud gpu, [copy logs](bash_scripts/copy_remote_to_local.sh) from the cloud server to your local machine and [upload](bash_scripts/save_logs_to_tensorboard.sh) to tensorboard
+Lastly, in the folder [bash scripts](bash_scripts), you can find useful bash scripts to [setup a ssh connection](bash_scripts/vast_setup.md) to a cloud gpu, [copy logs](bash_scripts/copy_remote_to_local.sh) from the cloud server to your local machine and [upload](bash_scripts/save_logs_to_tensorboard.sh) your training logs to tensorboard.
