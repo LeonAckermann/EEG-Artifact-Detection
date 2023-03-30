@@ -47,7 +47,7 @@ the setup of a virtual machine over the popular cloud computing provider vast.ai
 ## Structure of repository
 
 ### Data
-Firstly, in the [data folder](data) you will find a [python module](data/data.py) with all necessary functions for the preprocessing of the data. In the [notebook](data/data_statistics_visualisations.ipynb) you can inspect data samples and statistics about the data.
+Firstly, in the [data folder](data) you will find a [python module](data/data.py) with all necessary functions for downloading the data from our drive and to perform the necessary preprocessing steps. In the [notebook](data/data_statistics_visualisations.ipynb) you can inspect data samples and statistics about the data.
 
 ### Architecture
 In the folder [Architectures](architectures) you will find the implementations of our models. We implemented a [Convlutional Transformer based network](architectures/CCNAttentionNetwork.py), a [Multi Layer LSTM](architectures/MultiLayerLSTM.py) and [Bidirectional LSTM](architectures/BidirectionalLSTM.py).
