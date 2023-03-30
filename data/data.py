@@ -80,7 +80,6 @@ class Data:
 
 
         if transformer:
-            print('transformer')
             y_data_1 = data[:,:,-1] 
             y_data_2 = data[:,:,-2]  
 
@@ -91,13 +90,13 @@ class Data:
                 indices_comb = np.union1d(indices_1, indices_2)
 
                 # Extract the data and labels corresponding to these indices
-                reduced_data = features[indices_comb]
+                features = features[indices_comb]
                 y_data_1 = y_data_1[indices_comb]
                 y_data_2 = y_data_2[indices_comb] 
 
             if dataset:
                 # create a tensorflow dataset 
-                ds = tf.data.Dataset.from_tensor_slices((reduced_data, y_data_1, y_data_2))
+                ds = tf.data.Dataset.from_tensor_slices((features, y_data_1, y_data_2))
 
                 ds = ds.map(lambda x,y1, y2: (x, tf.cast(y1, tf.int32), tf.cast(y2, tf.int32)))
                 ds = ds.shuffle(1000).batch(batch_size).cache().prefetch(buffer_size = buffer_size)

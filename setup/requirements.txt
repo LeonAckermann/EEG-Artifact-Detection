@@ -1,7 +1,7 @@
-ipykernel==6.22.0
-tensorflow==2.12.0
-einops==0.6.0
-tqdm==4.64.1
-tensorboard==2.11.2
-matplotlib==3.7.1
-seaborn==0.12.2
+ipykernel
+tensorflow
+einops
+tqdm
+tensorboard
+matplotlib
+seaborn
