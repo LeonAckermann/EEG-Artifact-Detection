@@ -33,7 +33,7 @@ class Data:
         test_ds = data[val_split_idx:, :, :] # split test
         return train_ds, val_ds, test_ds
     
-    def prepare_data(self, input, balance=False, dataset=False, batch_size=64, buffer_size= 20, transformer=False, lstm=False, ccn=False):
+    def prepare_data(self, input, balance=False, dataset=False, batch_size=64, buffer_size= 20, transformer=False, lstm=False, ccn=False, musc=False, eyem=False):
         """
         split the data into features and lables, reshape the data, balance the data and put it into tf.Dataset
 
@@ -59,13 +59,31 @@ class Data:
         data = einops.rearrange(input, 'b c t -> b t c')
         features = data[:,:,:-2] # only take inputs from first 17 channels and all timesteps
 
+
         if lstm:
-            labels = data[:,:,-2:].astype('int32') # targets are stored in last two channels
+            labels_both = data[:,:,-2:]
+            labels_muscle = data[:,:,-2].astype('int32') # targets are stored in last two channels
+            labels_eyem = data[:,:,-1].astype('int32')
 
             if balance:
-                idx_ones = set(np.where(labels.any(axis=1))[0])
-                features = features[np.array(list(idx_ones))]
-                labels = labels[np.array(list(idx_ones))]
+                indices_1 = np.where(np.any(labels_muscle == 1, axis=1))[0]
+                indices_2  = np.where(np.any(labels_eyem == 1, axis=1))[0]
+                idx_ones = np.union1d(indices_1, indices_2)
+                #idx_ones = set(np.where(labels.any(axis=1))[0])
+                #features = features[np.array(list(idx_ones))]
+                #labels = labels[np.array(list(idx_ones))]
+                
+                features = features[idx_ones]
+                labels_muscle = labels_muscle[idx_ones]
+                labels_eyem = labels_eyem[idx_ones]
+                labels_both = labels_both[idx_ones]
+
+            if musc:
+                labels = labels_muscle
+            elif eyem:
+                labels = labels_eyem
+            else:
+                labels = labels_both
 
             if ccn:
                 features = tf.expand_dims(features, axis=-1)
