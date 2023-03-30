@@ -51,7 +51,6 @@ class CCNAttentionNetwork(tf.keras.Model):
 
   def call(self, x):
     
-    
     x = self.conv_block(x)
                 
     if self.attention == True:
@@ -59,15 +58,8 @@ class CCNAttentionNetwork(tf.keras.Model):
         x = self.mha(x, x)
         x = self.dropout(x)
     
-    
     x = self.dense_layers(x)
-        
-   
     output_muscle = self.dense(x)
-
-    
-    
-    
     output_muscle = tf.math.reduce_mean(output_muscle, axis=1)
 
     return output_muscle
