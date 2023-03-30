@@ -25,8 +25,7 @@ class CCNAttentionNetwork(tf.keras.Model):
     self.mha = tf.keras.layers.MultiHeadAttention(num_heads, 640)
     self.dropout = tf.keras.layers.Dropout(0.3)
     self.dense = tf.keras.layers.Dense(640, activation = "sigmoid")
-    self.dense2 = tf.keras.layers.Dense(640, activation = "sigmoid")
-    
+   
 
   def call(self, x):
     
@@ -41,14 +40,14 @@ class CCNAttentionNetwork(tf.keras.Model):
     
     x = self.dense_layers(x)
         
-    output_eye = self.dense(x)
-    output_muscle = self.dense2(x)
+   
+    output_muscle = self.dense(x)
 
     
     
-    output_eye = tf.math.reduce_mean(output_eye, axis=1)
+    
     output_muscle = tf.math.reduce_mean(output_muscle, axis=1)
 
-    return output_eye, output_muscle
+    return output_muscle
 
 
