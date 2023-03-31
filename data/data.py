@@ -45,6 +45,9 @@ class Data:
             buffer_size: int --> size for prefetching data set
             transformer: bool --> to create dataset for transformer
             lstm: bool --> to create dataset for lstm
+            ccn: bool --> if convolutional block is before lstm
+            musc: bool --> if true only muscle artifacts are returned in labels
+            eyem: bool --> if false only eye movement artifacts are returned in labels
         
         Returns: 
             if dataset==true --> tensorflow dataset is returned with shape (features, labels) for indicated architecture type
@@ -69,9 +72,6 @@ class Data:
                 indices_1 = np.where(np.any(labels_muscle == 1, axis=1))[0]
                 indices_2  = np.where(np.any(labels_eyem == 1, axis=1))[0]
                 idx_ones = np.union1d(indices_1, indices_2)
-                #idx_ones = set(np.where(labels.any(axis=1))[0])
-                #features = features[np.array(list(idx_ones))]
-                #labels = labels[np.array(list(idx_ones))]
                 
                 features = features[idx_ones]
                 labels_muscle = labels_muscle[idx_ones]
@@ -124,6 +124,9 @@ class Data:
     
     
     def plot(self, data, save_name=None, show=True, annotate=False, artifact=None):
+        """
+        plot one sample with 19 channels of features and 2 channels of artifacts
+        """
         data = np.squeeze(data)
 
         if annotate:
