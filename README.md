@@ -11,8 +11,10 @@ Firstly, in the [data folder](data) you will find a [python module](data/data.py
 In the folder [Architectures](architectures) you will find the implementations of our models. We implemented a [Convlutional Transformer based network](architectures/CCNAttentionNetwork.py), a [Multi Layer LSTM](architectures/MultiLayerLSTM.py) and [Bidirectional LSTM](architectures/BidirectionalLSTM.py).
 
 ### Hyperparameter Optimization
-In the folder [hparams_optimization](hyerparams_optimization) you find two jupyternotebooks for the optimization of the [transformer architecture](hyperparams_optimization/transformer_architecture_tuning.ipynb) and [lstm architectures](hyperparams_optimization/lstm_architecture_tuning.ipynb).
+In the folder [hparams_optimization](hyerparams_optimization) you find two jupyternotebooks for the optimization of the [transformer architecture](hyperparams_optimization/transformer_architecture_tuning.ipynb) and [lstm architectures](hyperparams_optimization/lstm_architecture_tuning.ipynb). Both notebooks make use of the python module [experiment.py](hyperparams_optimization/experiment.py) where you can find all necessary functions for the hyperparameter optimization.
 
+### Testing
+I the folder [testing](testing) you will find a python module [tester.py](testing/tester.py) to evaluate our best models on the test dataset and provide useful metrics. You can load the notebook [testing.ipynb](testing/testing.ipynb) to do so.
 
 ### Bash Scripts
 
