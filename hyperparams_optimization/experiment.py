@@ -10,25 +10,22 @@ class Experiment:
         """
         returns a model based on the selected hyperparameters
         """
-        models = {
-            "LSTM": LSTM(num_hidden_units = hparams['HP_NUM_HIDDEN_UNITS'], 
+
+        if hparams['HP_ARCHITECTURE']=="CNNAttention":
+            return CCNAttentionNetwork(num_units= hparams['HP_NUM_UNITS'],
+                                    num_layers=hparams['HP_NUM_LAYERS'],
+                                    num_conv_layers=hparams['HP_NUM_CONV_LAYERS'],
+                                    num_heads=hparams['HP_NUM_HEADS'],
+                                    attention=['HP_ATTENTION']) 
+        
+        if hparams['HP_ARCHITECTURE'] == "LSTM":
+            return LSTM(num_hidden_units = hparams['HP_NUM_HIDDEN_UNITS'], 
                         num_lstm_layers=hparams['HP_NUM_LSTM_LAYERS'],
                         num_dense_units = hparams['HP_NUM_DENSE_LAYERS'],
                         num_dense_layers = hparams['HP_NUM_DENSE_UNITS'],
                         num_conv_layers=hparams['HP_NUM_CONV_LAYERS'],
                         increase=hparams['HP_INCREASE_UNITS_PER_LSTM_LAYER'],
-                        bidirectional=hparams['HP_BIDIRECTIONAL']),
-
-            "CNNAttention": CCNAttentionNetwork(num_units= hparams['HP_NUM_UNITS'],
-                                                num_layers=hparams['HP_NUM_LAYERS'],
-                                                num_conv_layers=hparams['HP_NUM_CONV_LAYERS'],
-                                                num_heads=hparams['HP_NUM_HEADS'],
-                                                attention=['HP_ATTENTION']) 
-        }
-        print([h for h in hparams])
-        print(hparams['HP_ARCHITECTURE'])
-        return models.get(hparams['HP_ARCHITECTURE'])
-
+                        bidirectional=hparams['HP_BIDIRECTIONAL'])
 
 
     def run_model(self, train, val, test, hparams, logdir, savedir, checkpointdir, metrics, epochs):
@@ -97,8 +94,7 @@ class Experiment:
                                     print({h: hparams[h] for h in hparams})
 
                                     # Run a single experiment
-                                    accuracy = self.run_model(
-                                        train=train,
+                                    accuracy = self.run_model(train=train,
                                         val=val,
                                         test=test,
                                         hparams= hparams,
