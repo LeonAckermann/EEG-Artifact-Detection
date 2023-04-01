@@ -119,7 +119,7 @@ class Data:
             if dataset:
                 # create a tensorflow dataset 
                 ds = tf.data.Dataset.from_tensor_slices((features, y_data_1, y_data_2))
-                ds = ds.map(lambda x,y1, y2: (x, tf.cast(y1, tf.int32), tf.cast(y2, tf.int32)))
+                ds = ds.map(lambda x,y1, y2: (x, (tf.cast(y1, tf.int32), tf.cast(y2, tf.int32))))
                 ds = ds.shuffle(1000).batch(batch_size).cache().prefetch(buffer_size = buffer_size)
                 return ds
             
