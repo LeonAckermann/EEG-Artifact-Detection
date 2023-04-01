@@ -1,6 +1,6 @@
 # EEG-Artifact-Detection
 
-This is the repository of the project `EEG Artifact Detection` for the course Implementing Aritificial Neural Networks with Tensorflow. You can find a video summary of the project and our main findings here:https://drive.google.com/drive/folders/1SLuRZAZ9lD315OgMzmAOexAGqtSmHcu9
+This is the repository of the project `EEG Artifact Detection` for the course Implementing Aritificial Neural Networks with Tensorflow. You can find a video summary of the project and our main findings here:[https://drive.google.com/drive/folders/1SLuRZAZ9lD315OgMzmAOexAGqtSmHcu9](https://bit.ly/432iDbw)
  Below you can find an overview of the contents of this repository and the precise steps for replicating our results either on your local machine or a vast.ai gpu.
 
 ## Structure of Repository
