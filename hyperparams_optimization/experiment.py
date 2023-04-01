@@ -66,7 +66,7 @@ class Experiment:
         return results
     
 
-    def run_experimen(self, hparams_dict, logdir, metrics):
+    def run_experiment(self, hparams_dict, logdir, metrics):
         """
         train models on the selected hyperparamers and log the metrics, checkpoints and trained model in logidr
         """
