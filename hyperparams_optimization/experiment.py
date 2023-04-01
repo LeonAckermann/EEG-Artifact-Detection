@@ -25,12 +25,13 @@ class Experiment:
                                                 num_heads=hparams['HP_NUM_HEADS'],
                                                 attention=['HP_ATTENTION']) 
         }
+        print([h for h in hparams])
+        print(hparams['HP_ARCHITECTURE'])
+        return models.get(hparams['HP_ARCHITECTURE'])
 
-        return models.get(hparams['HP_MODEL_ARCHITECTURE'])
 
 
-
-    def run_model(self, train, val, test, hparams, logdir, savedir, checkpointdir, metrics):
+    def run_model(self, train, val, test, hparams, logdir, savedir, checkpointdir, metrics, epochs):
         """
         builds, compiles, trains and evaluates a model with certain architectual hyperparameters
     
@@ -53,7 +54,7 @@ class Experiment:
     
         model.fit(train,
                   batch_size=64,
-                  epochs=1,
+                  epochs=epochs,
                   validation_data=val,
                   verbose=0, # no output during training
                   callbacks=[tf.keras.callbacks.TensorBoard(logdir),  # log metrics
@@ -66,41 +67,50 @@ class Experiment:
         return results
     
 
-    def run_experiment(self, hparams_dict, logdir, metrics):
+    def run_experiment(self, hparams_dict, logdir, metrics, train, val, test, epochs=1):
         """
         train models on the selected hyperparamers and log the metrics, checkpoints and trained model in logidr
         """
-        if hparams_dict['HP_MODEL_ARCHITECTURE']=="CNNAttention":
+        print(hparams_dict['HP_ARCHITECTURE'])
+
+        if hparams_dict['HP_ARCHITECTURE'].domain.values[0]=="CNNAttention":
+            print('transformer')
             session_num = 0
             for num_units in hparams_dict['HP_NUM_UNITS'].domain.values:
                 for num_layers in hparams_dict['HP_NUM_LAYERS'].domain.values:
                     for num_heads in hparams_dict['HP_NUM_HEADS'].domain.values:
-                        for num_convlayers in hparams_dict['HP_NUM_CONVLAYERS'].domain.values:
+                        for num_conv_layers in hparams_dict['HP_NUM_CONV_LAYERS'].domain.values:
                             for attention in hparams_dict['HP_ATTENTION'].domain.values:
                                 for architecture in hparams_dict['HP_ARCHITECTURE'].domain.values:
                                     hparams = {
                                         'HP_NUM_UNITS': num_units,
                                         'HP_NUM_LAYERS': num_layers,
                                         'HP_NUM_HEADS': num_heads,
-                                        'HP_NUM_CONV_LAYERS': num_convlayers,
+                                        'HP_NUM_CONV_LAYERS': num_conv_layers,
                                         'HP_ATTENTION': attention,
                                         'HP_ARCHITECTURE': architecture
                                     }
                                     run_name = "run-%d" % session_num
+                                    print(type(h) for h in hparams)
+                                    print(type(hparams(h) for h in hparams))
                                     print('--- Starting trial: %s' % run_name)
-                                    print({h.name: hparams[h] for h in hparams})
+                                    print({h: hparams[h] for h in hparams})
 
                                     # Run a single experiment
                                     accuracy = self.run_model(
+                                        train=train,
+                                        val=val,
+                                        test=test,
                                         hparams= hparams,
-                                        epochs = 20,
+                                        epochs = epochs,
                                         logdir=logdir+'/hparam_tuning/' + run_name, 
                                         savedir=logdir+'logs/models/'+run_name, 
-                                        checkpointdir=logdir+'logs/checkpoints'+run_name)
+                                        checkpointdir=logdir+'logs/checkpoints'+run_name,
+                                        metrics=metrics)
                                     session_num += 1
 
 
-        if hparams_dict['HP_MODEL_ARCHITECTURE']=="LSTM":
+        if hparams_dict['HP_ARCHITECTURE'].domain.values[0]=="LSTM":
             session_num = 0
             for num_lstm_layers in hparams_dict['HP_NUM_LSTM_LAYERS'].domain.values:
                 for num_hidden_units in hparams_dict['HP_NUM_HIDDEN_UNITS'].domain.values:
@@ -108,10 +118,10 @@ class Experiment:
                         for num_dense_layers in hparams_dict['HP_NUM_DENSE_LAYERS'].domain.values:
                             for num_dense_units in hparams_dict['HP_NUM_DENSE_UNITS'].domain.values:
                                 for increase in hparams_dict['HP_INCREASE_UNITS_PER_LSTM_LAYER'].domain.values:
-                                    for model_architecture in hparams_dict['HP_MODEL_ARCHITECTURE'].domain.values:
+                                    for model_architecture in hparams_dict['HP_ARCHITECTURE'].domain.values:
                                         for bidirectional in hparams_dict['HP_BIDIRECTIONAL'].domain.values:
                                             hparams = {
-                                                'HP_MODEL_ARCHITECTURE': model_architecture,
+                                                'HP_ARCHITECTURE': model_architecture,
                                                 'HP_NUM_LSTM_LAYERS': num_lstm_layers,
                                                 'HP_NUM_HIDDEN_UNITS': num_hidden_units,
                                                 'HP_NUM_CONV_LAYERS': num_conv_layers,
@@ -122,11 +132,18 @@ class Experiment:
                                             }
                                             run_name = "run-%d" % session_num
                                             print('--- Starting trial: %s' % run_name)
+                                            print(type(h) for h in hparams)
+                                            print(type(hparams[h] for h in hparams))
                                             print({h: hparams[h] for h in hparams})
-                                            results = self.run_experiment(logdir=logdir+'hparam_tuning/' + run_name, 
-                                                          hparams=hparams, 
-                                                          savedir=logdir+'models/'+run_name, 
-                                                          checkpointdir=logdir+'checkpoints'+run_name,
-                                                          metrics=metrics)
+                                            results = self.run_model(
+                                                train=train,
+                                                val=val,
+                                                test=test,
+                                                logdir=logdir+'hparam_tuning/' + run_name, 
+                                                hparams=hparams, 
+                                                epochs=epochs,
+                                                savedir=logdir+'models/'+run_name, 
+                                                checkpointdir=logdir+'checkpoints'+run_name,
+                                                metrics=metrics)
                                             session_num += 1
                                             
