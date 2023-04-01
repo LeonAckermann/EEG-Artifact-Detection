@@ -47,7 +47,7 @@ class LSTM(keras.Model):
                 self.lstm_layers_list.append(keras.layers.LSTM(num_hidden_units+(num_hidden_units*i*increase), 
                                                                return_sequences=True, 
                                                                activation='tanh'))
-
+        self.dropout = keras.layers.Dropout(0.5)
         
         self.dense_layers_list = []  
         self.num_dense_layers = num_dense_layers
@@ -64,9 +64,11 @@ class LSTM(keras.Model):
             for layer in self.conv_layers_list:
                 print(x)
                 x = layer(x)
-
+    
         for layer in self.lstm_layers_list:
             x = layer(x)
+        
+        x = self.dropout(x)
 
         if self.num_dense_layers > 0:
             for layer in self.dense_layers_list:
