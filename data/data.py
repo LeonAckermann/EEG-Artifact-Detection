@@ -69,15 +69,18 @@ class Data:
             labels_eyem = data[:,:,-1].astype('int32')
 
             if balance:
+                # find samples with artifacts 
                 indices_1 = np.where(np.any(labels_muscle == 1, axis=1))[0]
                 indices_2  = np.where(np.any(labels_eyem == 1, axis=1))[0]
                 idx_ones = np.union1d(indices_1, indices_2)
                 
+                # select only samples which have artifacts 
                 features = features[idx_ones]
                 labels_muscle = labels_muscle[idx_ones]
                 labels_eyem = labels_eyem[idx_ones]
                 labels_both = labels_both[idx_ones]
 
+            # decide which labels to return based on provided arguments
             if musc:
                 labels = labels_muscle
             elif eyem:
@@ -98,8 +101,9 @@ class Data:
 
 
         if transformer:
-            y_data_1 = data[:,:,-1] 
-            y_data_2 = data[:,:,-2]  
+            # split labels into two numpy arraya
+            y_data_1 = data[:,:,-1] # eye movement labels
+            y_data_2 = data[:,:,-2] # muscle artifact labels
 
             if balance:
                 # if we want to reduce the dataset to only the samples that contain positive examples:
@@ -115,7 +119,6 @@ class Data:
             if dataset:
                 # create a tensorflow dataset 
                 ds = tf.data.Dataset.from_tensor_slices((features, y_data_1, y_data_2))
-
                 ds = ds.map(lambda x,y1, y2: (x, tf.cast(y1, tf.int32), tf.cast(y2, tf.int32)))
                 ds = ds.shuffle(1000).batch(batch_size).cache().prefetch(buffer_size = buffer_size)
                 return ds
@@ -184,9 +187,10 @@ class Data:
         """
         calculates the duration of muscel artifact and eye movement artifact in hours
         """
-
-        muscel_timesteps = np.argwhere(data[:,-2,:]==1).size 
-        eyem_timesteps = np.argwhere(data[:,-1, :]==1).size 
+        muscel_timesteps = np.argwhere(data[:,-2,:]==1).size # calculate number of timesteps with muscle artifacts
+        eyem_timesteps = np.argwhere(data[:,-1, :]==1).size # calculate number of timesteps with eye movement artifacts
+        
+        # from number timessteps --> hours
         muscel_hours = muscel_timesteps / (128*60*60) 
         eyem_hours = eyem_timesteps / (128*60*60)
         print('Number of events muscel artifacts: {}\nNumber of events eye movement artifacts: {}'.format(muscel_timesteps,eyem_timesteps))
