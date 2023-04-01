@@ -7,14 +7,14 @@ from mylibs import *
 
 class CCNAttentionNetwork(tf.keras.Model):
 
-      """
-      The constructor takes the following arguments:
-      num_units: Integer, the number of units in each dense layer.
-      num_layers: Integer, the number of dense layers in the model.
-      num_heads: Integer, the number of attention heads in the MultiHeadAttention layer.
-      num_conv_layers: Integer, the number of convolutional and max-pooling layer pairs in the conv_block.
-      attention: Boolean, this parameter controls whether multihead-attention is used.
-      """
+    """
+    The constructor takes the following arguments:
+    num_units: Integer, the number of units in each dense layer.
+    num_layers: Integer, the number of dense layers in the model.
+    num_heads: Integer, the number of attention heads in the MultiHeadAttention layer.
+    num_conv_layers: Integer, the number of convolutional and max-pooling layer pairs in the conv_block.
+    attention: Boolean, this parameter controls whether multihead-attention is used.
+    """
       
     def __init__(self, num_units, num_layers, num_heads, num_conv_layers, attention):
 
@@ -49,19 +49,16 @@ class CCNAttentionNetwork(tf.keras.Model):
         self.dense = tf.keras.layers.Dense(640, activation="sigmoid")
    
 
-  def call(self, x):
+    def call(self, x):
     
-    x = self.conv_block(x)
-                
-    if self.attention == True:
-        
-        x = self.mha(x, x)
-        x = self.dropout(x)
-    
-    x = self.dense_layers(x)
-    output_muscle = self.dense(x)
-    output_muscle = tf.math.reduce_mean(output_muscle, axis=1)
+        x = self.conv_block(x)
 
-    return output_muscle
+        if self.attention == True:
+            x = self.mha(x, x)
+            x = self.dropout(x)
 
+        x = self.dense_layers(x)
+        output_muscle = self.dense(x)
+        output_muscle = tf.math.reduce_mean(output_muscle, axis=1)       
+        return output_muscle    
 
