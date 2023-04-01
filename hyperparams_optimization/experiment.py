@@ -3,7 +3,7 @@ sys.path.append('./')
 from mylibs import *
 
 from architectures.LSTM import LSTM
-from architectures.Attention import CCNAttentionNetwork
+from architectures.CNNAttention import CNNAttention
 
 class Experiment:
     def create_model(self, hparams):
@@ -12,7 +12,7 @@ class Experiment:
         """
 
         if hparams['HP_ARCHITECTURE']=="CNNAttention":
-            return CCNAttentionNetwork(num_units= hparams['HP_NUM_UNITS'],
+            return CNNAttention(num_units= hparams['HP_NUM_UNITS'],
                                     num_layers=hparams['HP_NUM_LAYERS'],
                                     num_conv_layers=hparams['HP_NUM_CONV_LAYERS'],
                                     num_heads=hparams['HP_NUM_HEADS'],
@@ -73,12 +73,16 @@ class Experiment:
         if hparams_dict['HP_ARCHITECTURE'].domain.values[0]=="CNNAttention":
             print('transformer')
             session_num = 0
+
+            # iterate through selected hyperparameters
             for num_units in hparams_dict['HP_NUM_UNITS'].domain.values:
                 for num_layers in hparams_dict['HP_NUM_LAYERS'].domain.values:
                     for num_heads in hparams_dict['HP_NUM_HEADS'].domain.values:
                         for num_conv_layers in hparams_dict['HP_NUM_CONV_LAYERS'].domain.values:
                             for attention in hparams_dict['HP_ATTENTION'].domain.values:
                                 for architecture in hparams_dict['HP_ARCHITECTURE'].domain.values:
+                                    
+                                    # build directionary to run model
                                     hparams = {
                                         'HP_NUM_UNITS': num_units,
                                         'HP_NUM_LAYERS': num_layers,
@@ -108,6 +112,7 @@ class Experiment:
 
         if hparams_dict['HP_ARCHITECTURE'].domain.values[0]=="LSTM":
             session_num = 0
+            # iterate through selected hyperparameters
             for num_lstm_layers in hparams_dict['HP_NUM_LSTM_LAYERS'].domain.values:
                 for num_hidden_units in hparams_dict['HP_NUM_HIDDEN_UNITS'].domain.values:
                     for num_conv_layers in hparams_dict['HP_NUM_CONV_LAYERS'].domain.values:
@@ -116,6 +121,8 @@ class Experiment:
                                 for increase in hparams_dict['HP_INCREASE_UNITS_PER_LSTM_LAYER'].domain.values:
                                     for model_architecture in hparams_dict['HP_ARCHITECTURE'].domain.values:
                                         for bidirectional in hparams_dict['HP_BIDIRECTIONAL'].domain.values:
+                                            
+                                            # build directionary to run model
                                             hparams = {
                                                 'HP_ARCHITECTURE': model_architecture,
                                                 'HP_NUM_LSTM_LAYERS': num_lstm_layers,
