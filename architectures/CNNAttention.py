@@ -37,7 +37,7 @@ class CNNAttention(tf.keras.Model):
             self.dense_layers.add(tf.keras.layers.Dense(num_units, activation='relu'))
 
         # Initialize the attention attribute (not used in this implementation)
-        self.attention = None
+        self.attention = attention
 
         # Initialize a MultiHeadAttention layer with the specified number of heads and key/query/value dimensions
         self.mha = tf.keras.layers.MultiHeadAttention(num_heads, 640)
@@ -46,16 +46,25 @@ class CNNAttention(tf.keras.Model):
         self.dropout = tf.keras.layers.Dropout(0.3)
 
         # Initialize a Dense layer with 640 units and a sigmoid activation function
-        self.dense = tf.keras.layers.Dense(640, activation="sigmoid")
+        self.dense1 = tf.keras.layers.Dense(640, activation="sigmoid")
+        self.dense2 = tf.keras.layers.Dense(640, activation="sigmoid")
    
 
     def call(self, x):
+        
         x = self.conv_block(x)  
         if self.attention == True:
+            
             x = self.mha(x, x)
             x = self.dropout(x) 
+            
         x = self.dense_layers(x)
-        output_muscle = self.dense(x)
-        output_muscle = tf.math.reduce_mean(output_muscle, axis=1)       
-        return output_muscle    
+        
+        output_eye = self.dense1(x)
+        output_muscle = self.dense2(x)
+        
+        output_muscle = tf.math.reduce_mean(output_muscle, axis=1)
+        output_eye = tf.math.reduce_mean(output_eye, axis=1)  
+        
+        return output_eye, output_muscle    
 
