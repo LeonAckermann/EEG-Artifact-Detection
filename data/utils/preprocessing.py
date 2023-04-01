@@ -142,3 +142,43 @@ if __name__ == "__main__":
     data = np.random.randn(9, 200000)
     data = convert_to_chunks(data, 100, 300, debug=True, target_freq=128, padding=0.5)
     plot(data[5],show=True)
+
+def mark_artifact(filename, artifact):
+    """ Function to mark the artifact from the annotated CSV file.
+    
+    Parameters
+    ----------
+    filename : str
+        The name of the EDF file.
+    artifact : str
+        The name of the artifact to be marked.
+            
+    Returns 
+    ----------
+    artifact_array : numpy array
+        A numpy array of size (1, length) with 1's marking the artifact.
+        
+    """
+
+    # read the EDF file and get its length
+    f = pyedflib.EdfReader(filename)
+    length = f.getNSamples()[0]
+    f.close()
+    
+    # read the CSV file with shiver annotations
+    csv_filename = filename[:-4] + ".csv"
+    df = pd.read_csv(csv_filename, skiprows=6)
+    
+    # create an array of zeros of the same length as the EDF file
+    artifact_array = np.zeros(length) 
+    
+    # mark shivers as 1's in the array
+    for index, row in df[df['label']==artifact].iterrows():
+        start = int(row['start_time'] * f.getSampleFrequency(0))
+        stop = int(row['stop_time'] * f.getSampleFrequency(0))
+        artifact_array[start:stop] = 1
+    
+    # reshape the array to be of size (1, length)
+    artifact_array = artifact_array.reshape((1, length))
+    
+    return artifact_array
