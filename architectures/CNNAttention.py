@@ -36,8 +36,8 @@ class CCNAttentionNetwork(tf.keras.Model):
         for i in range(num_layers):
             self.dense_layers.add(tf.keras.layers.Dense(num_units, activation='relu'))
 
-        # Initialize the attention attribute (not used in this implementation)
-        self.attention = None
+        # Initialize the attention attribute
+        self.attention = attention
 
         # Initialize a MultiHeadAttention layer with the specified number of heads and key/query/value dimensions
         self.mha = tf.keras.layers.MultiHeadAttention(num_heads, 640)
