@@ -30,6 +30,10 @@ class Tester:
         return 2*precision*recall*(precision+recall)
     
     def get_metrics(self, model, test_features, test_labels):
+        """
+        computes accuracy, precision, recall and f1-score for the given model on given test_features, test_labels and predicitions from model
+        returns a print statement to read out metrics comfortably
+        """
         predictions = model.predict(test_features)
         
         prediction_musc = np.squeeze(predictions[:,:,0])
